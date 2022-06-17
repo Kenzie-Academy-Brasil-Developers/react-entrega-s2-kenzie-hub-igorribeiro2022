@@ -3,45 +3,112 @@ import FormStyles from "../Register/FormStyles";
 import Div from "./styles.js";
 import Container from "../../Styles/container";
 import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { toast } from "react-toastify";
 
 function Register() {
-  const history = useHistory()
+  const history = useHistory();
+
+  const formSchema = yup.object().shape({
+    name: yup.string().required("Nome obrigatório"),
+    email: yup.string().required("E-mail obrigatório").email("E-mail inválido"),
+    password: yup
+      .string()
+      .required("Digite uma senha!")
+      .matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/,
+        "Senha fraca!"
+      ),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password")], "As senhas não coincidem!"),
+    bio: yup.string().required("Digite uma bio!"),
+    contato: yup.string().required("Coloque uma forma de contato!"),
+    modulo: yup.string().required("Escolha um módulo!"),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formSchema),
+  });
+
+  function onSubmitFunction(data) {
+    console.log(data);
+    history.push("/")
+    toast.success("Cadastro realizado com sucesso!")
+  }
+
   return (
     <Container>
-        <Div>
-            <h1>Kenzie Hub</h1>
-            <button onClick={() => history.push('/')}>Voltar</button>
-        </Div>
-      <FormStyles>
+      <Div>
+        <h1>Kenzie Hub</h1>
+        <button onClick={() => history.push("/")}>Voltar</button>
+      </Div>
+      <FormStyles onSubmit={handleSubmit(onSubmitFunction)}>
         <h2>Crie sua conta</h2>
         <p>Rápido e grátis, vamos nessa</p>
         <div>
-          <label htmlFor="">Nome</label>
-          <input type="text" placeholder="Digite aqui seu nome" />
+          <label>Nome</label>
+          <input
+            type="text"
+            placeholder="Digite aqui seu nome"
+            {...register("name")}
+          />
+          {errors.name?.message}
         </div>
         <div>
-          <label htmlFor="">Email</label>
-          <input type="text" placeholder="Digite aqui seu email" />
+          <label>Email</label>
+          <input
+            type="text"
+            placeholder="Digite aqui seu email"
+            {...register("email")}
+          />
+          {errors.email?.message}
         </div>
         <div>
-          <label htmlFor="">Senha</label>
-          <input type="password" placeholder="Digite aqui sua senha" />
+          <label>Senha</label>
+          <input
+            type="password"
+            placeholder="Digite aqui sua senha"
+            {...register("password")}
+          />
+          {errors.password?.message}
         </div>
         <div>
-          <label htmlFor="">Confirmar Senha</label>
-          <input type="password" placeholder="Digite novamente sua senha" />
+          <label>Confirmar Senha</label>
+          <input
+            type="password"
+            placeholder="Digite novamente sua senha"
+            {...register("confirmPassword")}
+          />
+          {errors.confirmPassword?.message}
         </div>
         <div>
-          <label htmlFor="">Bio</label>
-          <input type="text" placeholder="Fale sobre você" />
+          <label>Bio</label>
+          <input
+            type="text"
+            placeholder="Fale sobre você"
+            {...register("bio")}
+          />
+          {errors.bio?.message}
         </div>
         <div>
-          <label htmlFor="">Contato</label>
-          <input type="text" placeholder="Opção de contato" />
+          <label>Contato</label>
+          <input
+            type="text"
+            placeholder="Opção de contato"
+            {...register("contato")}
+          />
+          {errors.contato?.message}
         </div>
         <div>
-          <label htmlFor="">Selecione o Módulo</label>
-          <select type="text">
+          <label>Selecione o Módulo</label>
+          <select type="text" {...register("modulo")}>
             <option value="Selecione">Selecione</option>
             <option value="Primeiro Módulo">Primeiro Módulo</option>
             <option value="Segundo Módulo">Segundo Módulo</option>
@@ -50,8 +117,11 @@ function Register() {
             <option value="Quinto Módulo">Quinto Módulo</option>
             <option value="Sexto Módulo">Sexto Módulo</option>
           </select>
-          <ButtonStyled colored="pp">Cadastrar</ButtonStyled>
         </div>
+        {errors.modulo?.message}
+        <ButtonStyled type="submit" colored="pp">
+          Cadastrar
+        </ButtonStyled>
       </FormStyles>
     </Container>
   );

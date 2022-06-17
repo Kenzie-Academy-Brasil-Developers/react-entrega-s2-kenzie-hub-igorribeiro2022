@@ -26,6 +26,11 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: var(--gray-4);
     color: var(--gray-0);
+    overflow-x: hidden;
+  }
+
+  body::-webkit-scrollbar {
+    width: 0px;
   }
 
   body, input, button, h1, h2, h3, h4, h5, h6 {

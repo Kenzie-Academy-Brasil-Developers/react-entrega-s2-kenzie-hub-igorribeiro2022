@@ -2,12 +2,14 @@ import Routes from "./Routes";
 import GlobalStyle from "./Styles/global";
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css';
+import { useState } from "react";
 
 function App() {
+  const [user, setUser] = useState({})
   return (
     <>
       <GlobalStyle />
-      <Routes />
+      <Routes user={user} setUser={setUser} />
       <ToastContainer
         theme="dark"
         position="top-right"

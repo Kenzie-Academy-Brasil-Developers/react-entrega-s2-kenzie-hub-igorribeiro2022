@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
+import api from "../../Services/api"
 
 function Register() {
   const history = useHistory();
@@ -25,8 +26,8 @@ function Register() {
       .string()
       .oneOf([yup.ref("password")], "As senhas não coincidem!"),
     bio: yup.string().required("Digite uma bio!"),
-    contato: yup.string().required("Coloque uma forma de contato!"),
-    modulo: yup.string().required("Escolha um módulo!"),
+    contact: yup.string().required("Coloque uma forma de contato!"),
+    course_module: yup.string().required("Escolha um módulo!"),
   });
 
   const {
@@ -37,10 +38,20 @@ function Register() {
     resolver: yupResolver(formSchema),
   });
 
-  function onSubmitFunction(data) {
-    console.log(data);
-    history.push("/")
-    toast.success("Cadastro realizado com sucesso!")
+  function onSubmitFunction({name, email, password, bio, contact, course_module}) {
+    const user = {name, email, password, bio, contact, course_module};
+    console.log(user)
+    api.post(`/users`, user)
+      .then(resp => {
+        console.log(resp)
+        toast.success("Cadastro realizado com sucesso!")
+        history.push("/")
+      })
+      .catch(err => {
+        console.log(err)
+        toast.error(err.response.data.message)
+      })
+
   }
 
   return (
@@ -102,13 +113,13 @@ function Register() {
           <input
             type="text"
             placeholder="Opção de contato"
-            {...register("contato")}
+            {...register("contact")}
           />
-          {errors.contato?.message}
+          {errors.contact?.message}
         </div>
         <div>
           <label>Selecione o Módulo</label>
-          <select type="text" {...register("modulo")}>
+          <select type="text" {...register("course_module")}>
             <option value="Selecione">Selecione</option>
             <option value="Primeiro Módulo">Primeiro Módulo</option>
             <option value="Segundo Módulo">Segundo Módulo</option>
@@ -118,7 +129,7 @@ function Register() {
             <option value="Sexto Módulo">Sexto Módulo</option>
           </select>
         </div>
-        {errors.modulo?.message}
+        {errors.course_module?.message}
         <ButtonStyled type="submit" colored="pp">
           Cadastrar
         </ButtonStyled>

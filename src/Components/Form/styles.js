@@ -6,6 +6,7 @@ const FormStyled = styled.form`
   align-items: center;
   padding: 33.6911px 17.6477px;
   gap: 10px;
+  color: var(--negative);
 
   height: auto;
   min-height: 400px;
@@ -18,6 +19,8 @@ const FormStyled = styled.form`
 
   h2 {
     font-size: 13pt;
+    color: var(--pink-primary);
+
   }
   div {
     display: flex;

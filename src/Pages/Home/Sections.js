@@ -6,6 +6,8 @@ export const SectionAbout = styled.section`
     align-items: flex-start;
     flex-direction: column;
     width: 100vw;
+    max-width: 780px;
+    margin: auto;
     padding: 40px 10px;
 
     border-bottom: 1px solid var(--gray-2);
@@ -27,6 +29,8 @@ export const SectionTech = styled.section`
     align-items: flex-start;
     flex-direction: column;
     width: 100vw;
+    max-width: 780px;
+    margin: auto;
     padding: 40px 10px;
 
 

@@ -48,8 +48,14 @@ export const DivTechs = styled.div`
     border-radius: 5px;
 
     gap: 20px;
-
+    
     div {
+        cursor: pointer;
+        :hover {
+            background-color: var(--gray-2);
+            transition: .3s;
+        }
+
         display: flex;
         flex-direction: row;
         align-items: center;

@@ -7,7 +7,7 @@ import * as yup from "yup";
 import api from "../../Services/api";
 import { toast } from "react-toastify";
 
-function Formulario({user, setUser}) {
+function Formulario({ user, setUser }) {
   const history = useHistory();
 
   const formSchema = yup.object().shape({
@@ -29,25 +29,23 @@ function Formulario({user, setUser}) {
     resolver: yupResolver(formSchema),
   });
 
-  function onSubmitFunction({
-    email,
-    password
-  }) {
+  function onSubmitFunction({ email, password }) {
     const user = { email, password };
-      
-      api
-        .post(`/sessions`, user)
-        .then((resp) => {
-          console.log(resp);
-          toast.success("Seja Bem-Vindo(a)!");
-          setUser(resp.data)
-          window.localStorage.setItem("token", resp.data.token)
-          history.push("/home");
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error(err.response.data.message);
-        });
+    toast
+      .promise(api.post(`/sessions`, user), {
+        pending: "Carregando, aguarde!",
+        success: "Tudo ok! Seja bem-vindo(a)!",
+        error: "Houve um erro, verifique suas informações!",
+      })
+      .then((resp) => {
+          setUser(resp.data);
+          window.localStorage.setItem("tokenHub", resp.data.token);
+          window.localStorage.setItem("data", JSON.stringify(resp.data));
+          history.push("/home")
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (

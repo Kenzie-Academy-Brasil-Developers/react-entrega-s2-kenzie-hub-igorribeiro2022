@@ -6,9 +6,9 @@ const FormStyles = styled.form`
   align-items: center;
   padding: 33.6911px 17.6477px;
   gap: 10px;
-
-  height: 730px;
-  min-height: 400px;
+  color: var(--negative);
+  //height: 730px;
+  //min-height: 400px;
   
   width: 90%;
   max-width: 370px;
@@ -69,6 +69,10 @@ const FormStyles = styled.form`
 
   ::-ms-expand {
     display: none;
+  }
+
+  h2 {
+    color: var(--gray-0);
   }
 `;
 

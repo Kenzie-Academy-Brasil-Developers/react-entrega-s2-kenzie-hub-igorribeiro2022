@@ -26,7 +26,7 @@ export const SectionAbout = styled.section`
 export const SectionTech = styled.section`
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
     width: 100vw;
     max-width: 780px;

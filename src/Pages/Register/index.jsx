@@ -56,10 +56,7 @@ function Register() {
         error: "Houve um erro, tente um novo email!",
       })
       .then((resp) => {
-        setInterval(() => {
-          history.push("/");
-          
-        }, 2000);
+        history.push("/");
       })
       .catch((err) => {
       });
